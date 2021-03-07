@@ -141,7 +141,12 @@ for a = 1:str2num(nBlocks)
     
     trialorder = Shuffle(1:nTrialsPerBlock); % randomize trial order for each block
     %Revanna: more research on shuffle function?
+    
     % trial loop
+    
+    %revanna: this is all working with images and randomizing position
+    %stuff which we arent doing, heavily modify or delete this loop
+    
     for i = 1:nTrialsPerBlock;
         cellindex = Shuffle(1:nrow.*ncolumn); % randomize the position of the star within the grid specified earlier
         itemloc = [cellcenter(cellindex(1),1)-cellsize/2, cellcenter(cellindex(1),2)-cellsize/2, cellcenter(cellindex(1),1)+cellsize/2, cellcenter(cellindex(1),2)+cellsize/2];
@@ -159,6 +164,7 @@ for a = 1:str2num(nBlocks)
         Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
         %ShowCursor('hand');
         
+        % Revanna: no mouse response
         
         % now record  response
         timeStart = GetSecs;keyIsDown=0; correct=0; rt=0;
@@ -173,7 +179,11 @@ for a = 1:str2num(nBlocks)
                 correct=0;Snd('Play', Beep1); WaitSecs(ErrorDelay);
             end
             Screen('Flip', mainwin);
-        else  %% keyboard response
+            
+            %Revanna: KbCheck, FlushEvents, nKeys(variable not func), while
+            %1 thing again
+            
+        else  %% keyboard response       
             while 1
                 [keyIsDown, secs, keyCode] = KbCheck;
                 FlushEvents('keyDown');
@@ -200,6 +210,9 @@ for a = 1:str2num(nBlocks)
         end
         
         Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
+        
+        %revanna: again remove/modify this whole section bc we are not
+        %storing to external source
         
         % write data out
         fprintf(outfile, '%s\t %s\t %s\t %s\t %s\t %d\t %d\t %d\t %d\t %6.2f\t \n', subid, ...,
