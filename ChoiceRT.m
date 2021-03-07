@@ -11,10 +11,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Experimental parameters
 clear all;
-rand('state', sum(100*clock)); 
+rand('state', sum(100*clock)); %zeroing computer clock for RT recording??
 Screen('Preference', 'SkipSyncTests', 1);
 
-ErrorDelay=1; interTrialInterval = .5; nTrialsPerBlock = 10; 
+ErrorDelay=1; interTrialInterval = .5; nTrialsPerBlock = 10;
+
+%update once we have a better idea of what keys were using
 
 KbName('UnifyKeyNames');
 Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
@@ -35,9 +37,11 @@ Beep4 = [Beep1 Beep2 Beep3];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Login prompt and open file for writing data out
+
 %Revanna: I think we need to modify this whole section since we want to save/analyze
 %data in matlab and not as an external file
 %also do we want to collect user information? 
+
 prompt = {'Outputfile', 'Subject''s number:', 'age', 'gender', 'group', 'Num of Blocks'}; 
 defaults = {'ChoiceRT', '98', '18', 'F', 'control' , '8'};
 answer = inputdlg(prompt, 'ChoiceRT', 2, defaults);
@@ -151,7 +155,8 @@ for a = 1:str2num(nBlocks)
         cellindex = Shuffle(1:nrow.*ncolumn); % randomize the position of the star within the grid specified earlier
         itemloc = [cellcenter(cellindex(1),1)-cellsize/2, cellcenter(cellindex(1),2)-cellsize/2, cellcenter(cellindex(1),1)+cellsize/2, cellcenter(cellindex(1),2)+cellsize/2];
         Screen('FillRect', mainwin ,bgcolor);
-        
+       
+        % initialization/defining of answer variable is important for us
         % present the stimulus
         if mod(trialorder(i),2)==0
             Screen('DrawTexture', mainwin, redStar, [], itemloc);
@@ -181,7 +186,7 @@ for a = 1:str2num(nBlocks)
             Screen('Flip', mainwin);
             
             %Revanna: KbCheck, FlushEvents, nKeys(variable not func), while
-            %1 thing again
+            %1 thing again, GetSecs, timeStart, corrkey function
             
         else  %% keyboard response       
             while 1
@@ -190,7 +195,8 @@ for a = 1:str2num(nBlocks)
                 if keyIsDown
                     nKeys = sum(keyCode);
                     if nKeys==1
-                        if keyCode(Key1)||keyCode(Key2)
+                        if keyCode(Key1)||keyCode(Key2) 
+                            %put conditions here 
                             rt = 1000.*(GetSecs-timeStart);
                             keypressed=find(keyCode);
                             Screen('Flip', mainwin);
@@ -204,6 +210,9 @@ for a = 1:str2num(nBlocks)
             end
             if (keypressed==corrkey(1)&&answer==1)||(keypressed==corrkey(2)&&answer==2)
                 correct=1;Snd('Play', Beep4);
+                % doesnt apply bc there is no incorrect answer
+                %Manipulate this part so that Rt is only recorded on
+                %correct key presses
             else
                 correct=0; Snd('Play', Beep1); WaitSecs(ErrorDelay);
             end
