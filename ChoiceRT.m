@@ -35,7 +35,10 @@ Beep4 = [Beep1 Beep2 Beep3];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Login prompt and open file for writing data out
-prompt = {'Outputfile', 'Subject''s number:', 'age', 'gender', 'group', 'Num of Blocks'};
+%Revanna: I think we need to modify this whole section since we want to save/analyze
+%data in matlab and not as an external file
+%also do we want to collect user information? 
+prompt = {'Outputfile', 'Subject''s number:', 'age', 'gender', 'group', 'Num of Blocks'}; 
 defaults = {'ChoiceRT', '98', '18', 'F', 'control' , '8'};
 answer = inputdlg(prompt, 'ChoiceRT', 2, defaults);
 [output, subid, subage, gender, group, nBlocks] = deal(answer{:}); % all input variables are strings
@@ -61,10 +64,15 @@ center = [screenrect(3)/2 screenrect(4)/2];
 Screen(mainwin, 'Flip');
 
 %   load images
+
+%Revanna: no images needed, locate word matricies here??
 im = imread('redStar.jpg'); redStar = Screen('MakeTexture', mainwin, im);
 im = imread('blueStar.jpg'); blueStar = Screen('MakeTexture', mainwin, im);
 
 %   potential locations to place the star.
+
+% Revanna: modify this section to fixed locations for text, not loop or
+% randomization needed
 nrow = 6; ncolumn = 6; cellsize = 100;
 for ncells = 1:nrow.*ncolumn
     xnum = (mod(ncells-1, ncolumn)+1)-3.5;
@@ -77,9 +85,14 @@ end
 %   Experimental instructions, wait for a spacebar response to start
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
+% Revanna: modify instruction text here
 Screen('DrawText',mainwin,['Report the color of the star. Press spacebar to start the experiment.'] ,center(1)-350,center(2)-20,textcolor);
 Screen('Flip',mainwin );
 
+%Revanna: kbCheck function? (press any key if forgot)??
+% I dont understand what this section does, maybe bc idk what keyisdown is
+% doing here, could just be waiting for space bar to start but if that is
+% the case KbStrokeWait is much easier
 keyIsDown=0;
 while 1
     [keyIsDown, secs, keyCode] = KbCheck;
@@ -97,6 +110,9 @@ end
 WaitSecs(0.3);
 
 % counterbalance the order of keyboard and mouse responses for even and odd numbered participants
+
+%Revanna: I think this is accomodating changing variable of having users
+%click w/ mouse v. using arrows so we dont need
 if mod(str2num(subid),2)==0
     firstblock=1;  
 else
@@ -109,7 +125,7 @@ end
 for a = 1:str2num(nBlocks)
     Screen('FillRect', mainwin, bgcolor);
     Screen('TextSize', mainwin, 24);
-    
+    %Revanna: we do not vary selection method
     if mod(a,2)==firstblock
         blocktype = 'keyboard';
         Screen('DrawText', mainwin, ['Keyboard response: left arrow for red, right arrow for blue'], center(1)-300, center(2)+130, textcolor);
@@ -124,7 +140,7 @@ for a = 1:str2num(nBlocks)
     WaitSecs(1);
     
     trialorder = Shuffle(1:nTrialsPerBlock); % randomize trial order for each block
-    
+    %Revanna: more research on shuffle function?
     % trial loop
     for i = 1:nTrialsPerBlock;
         cellindex = Shuffle(1:nrow.*ncolumn); % randomize the position of the star within the grid specified earlier
