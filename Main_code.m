@@ -39,6 +39,7 @@ vector_semantic_ani = semantic_ani(Index_semantic);
 vector_syntax_ani = syntax_ani(Index_syntax);
 
 %%have to define prompt_word, choice_word; want them to be strings%%
+%don't think it's necessary actually%
 
 total_num_RT_semantic_emo = 0;
 RT_semantic_emo = 0;
