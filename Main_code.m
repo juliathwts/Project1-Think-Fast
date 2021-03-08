@@ -88,7 +88,7 @@ total_sum_RT_baseline_ani = 0;
 mean_RT_baseline_ani = 0;
 
 %%Learning block%%
-For jj = 1:20
+for jj = 1:20
     prompt_word = vector_prompt_random(randi(18));
     disp(prompt_word); %%for x seconds%%
     choice_word = vector_choice_random(randi(18));
@@ -115,6 +115,7 @@ For jj = 1:20
             %key is wrong
         end
     end
+end
 
 
 %%Block code%%
