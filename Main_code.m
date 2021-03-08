@@ -87,21 +87,24 @@ RT_baseline_ani = 0;
 total_sum_RT_baseline_ani = 0;
 mean_RT_baseline_ani = 0;
 
+KbName('UnifyKeyNames'); %%
+Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
+
 %%Learning block%%
 for jj = 1:20
     prompt_word = vector_prompt_random(randi(18));
     disp(prompt_word); %%for x seconds%%
     choice_word = vector_choice_random(randi(18));
     prompt_choice_vector = [prompt_word,choice_word];
-    disp_vector = prompt_choice_vector(randperm(2));
+    shuffled_vector = prompt_choice_vector(randperm(2)); %%change every disp vector to shuffled_vector%%
     disp(disp_vector); %%untill participant clicks correct arrow%%
     idx = find(disp_vector(prompt_word));
     
     % determine which arrow should be pressed%
     if idx == 1
-        correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+        correct_key_ascii = key1; 
     else
-        correct_key_ascii = 39; %%39 is the ascii code for right arrow
+        correct_key_ascii = key2;
     end
     
     % check that correct arrow is pressed% %%not very sure about this%%
@@ -137,9 +140,9 @@ for ii = 1:45
            idx = find(disp_vector(prompt_word));
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2;
             end
             % check that correct arrow is pressed% %%not very sure about this%%
             while n > 0 %%loop so that if the pressed key is wrong, the getkey resets%% 
@@ -178,9 +181,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2;
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -221,9 +224,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -263,9 +266,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -305,9 +308,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -354,9 +357,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -396,9 +399,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -438,9 +441,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -480,9 +483,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -522,9 +525,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -570,9 +573,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -612,9 +615,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -654,9 +657,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -697,9 +700,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -739,9 +742,9 @@ for ii = 1:45
     
             % determine which arrow should be pressed%
             if idx == 1
-                correct_key_ascii = 37; %%37 is the ascii code for left arrow 
+                correct_key_ascii = key1; %%key1 is the ascii code for left arrow 
             else
-                correct_key_ascii = 39; %%39 is the ascii code for right arrow
+                correct_key_ascii = key2; %%key2 is the ascii code for right arrow
             end
     
              % check that correct arrow is pressed% %%not very sure about this%%
@@ -777,4 +780,6 @@ end
 mean_baseline_RT = (total_sum_RT_baseline_emo + total_sum_RT_baseline_col + total_sum_RT_baseline_ani)/(total_num_RT_baseline_emo + total_num_RT_baseline_col + total_num_RT_baseline_ani);
 mean_semantic_RT = (total_sum_RT_semantic_emo + total_sum_RT_semantic_col + total_sum_RT_semantic_ani)/(total_num_RT_semantic_emo + total_num_RT_semantic_col + total_num_RT_semantic_ani);    
 mean_syntax_RT = (total_sum_RT_syntax_emo + total_sum_RT_syntax_col + total_sum_RT_syntax_ani)/(total_num_RT_syntax_emo + total_num_RT_syntax_col + total_num_RT_syntax_ani);
+
+disp('Your mean reaction time when the words share semantic features is',32,num2str(mean_semantic_RT),46,10,'Your mean reaction time when the words share syntactic features is',32,num2str(mean_syntax_RT),46,10,'Your mean reaction time when the words are unreelated is',32,num2str(mean_baseline_RT),46);  %#ok<NOPTS>
            
