@@ -84,7 +84,8 @@ exp_order = rot90(exp_order); %now prompt words are all in row 2
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
 % Revanna: modify instruction text here
-Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word. Press spacebar to start the experiment.' ,center(1)-450,center(2)-20,textcolor);
+Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location (left or right) of the prompt word.',center(1)-300,center(2)-20,textcolor);
+Screen('DrawText',mainwin, 'Press spacebar to start the experiment.', center(1)-300,center(2)-20,textcolor);
 Screen('Flip',mainwin );
 
 keyIsDown=0;
