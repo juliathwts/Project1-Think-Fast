@@ -20,6 +20,13 @@ grey = white_I/2;
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = white; textcolor = black;
 location = 0;
+unrel_counter = 1;
+synt_counter = 1;
+sema_counter = 1;
+rt_unrel = zeros(1,15);
+rt_synt = zeros(1,15);
+rt_sema = zeros(1,15);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Screen parameters
 [mainwin, screenrect] = Screen(0, 'OpenWindow'); %screenrect = [left top right bottom]
@@ -162,14 +169,9 @@ unrel_wrd = sum(sum(str1 == words(:,2:4)));
 synt_wrd = sum(sum(str1 == words(:,5:7)));
 sema_wrd = sum(sum(str1 == words(:,8:10)));
 % brainstorming how to connect boolean variables to RT loop 
-rt_unrel = ones(1,15);
-rt_synt = ones(1,15);
-rt_sema = ones(1,15);
-unrel_counter = 1;
-synt_counter = 1;
-sema_counter = 1;
+
 if unrel_wrd > 0
-    rt_unrel(unrel_counter) = rt; 
+    rt_unrel(unrel_counter) = rt;
     unrel_counter = unrel_counter +1; 
 elseif synt_wrd > 0
     rt_synt(synt_counter) = rt;
@@ -208,6 +210,5 @@ Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)*.66); %not sure ho
 
 Screen('Flip', mainwin);
 
-WaitSecs(3);
-        
+WaitSecs(3);       
 sca;
