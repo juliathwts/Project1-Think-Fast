@@ -108,7 +108,11 @@ WaitSecs(0.3);
 
 for ii = 1:45
 %in trial loop after star position is randomized 
-
+%psychImaging and screen command are conflicting????
+% [window, windowRect] = PsychImaging('OpenWindow', screenNumber,grey);
+% [screenXpixels, screenYpixels] = Screen('WindowSize', window);
+% Screen('TextSize', window, 50);
+% Screen('TextFont', window, 'Times');
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
