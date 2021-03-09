@@ -86,8 +86,6 @@ Screen('TextSize', mainwin, 24);
 % Revanna: modify instruction text here
 Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word. Press spacebar to start the experiment.' ,center(1)-450,center(2)-20,textcolor);
 Screen('Flip',mainwin );
-%KbStrokeWait;
-%sca;
 
 keyIsDown=0;
 while 1
@@ -108,18 +106,14 @@ WaitSecs(0.3);
 
 for ii = 1:45
 %in trial loop after star position is randomized 
-%psychImaging and screen command are conflicting????
-% [window, windowRect] = PsychImaging('OpenWindow', screenNumber,grey);
-% [screenXpixels, screenYpixels] = Screen('WindowSize', window);
-% Screen('TextSize', window, 50);
-% Screen('TextFont', window, 'Times');
+
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
 mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
 char1 = char(mytext(1));
 char2 = char(mytext(2));
-location = find(mytest,str2);
+%location = find(mytest,str2);
 % if mytext(1) == str2 %check were prompt word ended up after shuffle
 %     %Nada: you can just have location = find(mytext,str2); instead of
 %     %condition, then%
@@ -162,30 +156,58 @@ location = find(mytest,str2);
                     end
                 end
          end
-%             if (keypressed==corrkey(1)&&answer==1)||(keypressed==corrkey(2)&&answer==2)
-%                 correct=1;Snd('Play', Beep4);
-%                 % doesnt apply bc there is no incorrect answer
-%                 %Manipulate this part so that Rt is only recorded on
-%                 %correct key presses
-%
-%             else
-%                 correct=0; Snd('Play', Beep1); WaitSecs(ErrorDelay);
-            %end
+ % code to determine thematic category of choice word/ storing category of
+ % RT data 
+unrel_wrd = sum(sum(str1 == words(:,2:4)));
+synt_wrd = sum(sum(str1 == words(:,5:7)));
+sema_wrd = sum(sum(str1 == words(:,8:10)));
+% brainstorming how to connect boolean variables to RT loop 
+rt_unrel = ones(1,15);
+rt_synt = ones(1,15);
+rt_sema = ones(1,15);
+unrel_counter = 1;
+synt_counter = 1;
+sema_counter = 1;
+if unrel_wrd > 0
+    rt_unrel(unrel_counter) = rt; 
+    unrel_counter = unrel_counter +1; 
+elseif synt_wrd > 0
+    rt_synt(synt_counter) = rt;
+    synt_counter = synt_counter + 1;
+elseif sema_wrd > 0
+    rt_sema(sema_counter) = rt;
+    sema_counter = sema_counter + 1;
+end
            
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
         WaitSecs(1);
         %%%%%%%%%% 
-         rt_sema(ii) = rt;
-         mean_rt_sema = mean(rt_sema);
+        
+        
 end
- mean_rt_sema_str = string(mean_rt_sema);
-mean_rt_sema_text = append('Average Response Time in Semantic Condition =', char(mean_rt_sema_str));% do this for all 3 conditions at the end of everything
 
+mean_rt_sema = mean(rt_sema);
+mean_rt_sema_str = string(mean_rt_sema);
+mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str);% do this for all 3 conditions at the end of everything
+sema_text = char(mean_rt_sema_text);
 
-Screen('DrawText', mainwin, mean_rt_sema_text, center(1), center(2)*.33); %this one should be printed at the centre top of the screen roughly
-Screen('DrawText', mainwin, mean_rt_unrel_text, center(1), center(2)*.5); %this at the centre centre
-Screen('DrawText', mainwin, mean_rt_synt_text, center(1), center(2)*.66); %not sure how to place this at the bottom
-      
+mean_rt_unrel = mean(rt_unrel);
+mean_rt_unrel_str = string(mean_rt_unrel);
+mean_rt_unrel_text = append('Average Response Time in Unrelated Condition =', mean_rt_unrel_str);
+unrel_text = char(mean_rt_unrel_text);
+
+mean_rt_synt = mean(rt_synt);
+mean_rt_synt_str = string(mean_rt_synt);
+mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str);
+synt_text = char(mean_rt_synt_text);
+
+Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)*.33); %this one should be printed at the centre top of the screen roughly
+Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)*.5); %this at the centre centre
+Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)*.66); %not sure how to place this at the bottom
+
+Screen('Flip', mainwin);
+
+WaitSecs(3);
         
 sca;
