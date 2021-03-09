@@ -175,7 +175,17 @@ location = find(mytest,str2);
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
         WaitSecs(1);
+        %%%%%%%%%% 
+         rt_sema(ii) = rt;
+         mean_rt_sema = mean(rt_sema);
 end
-        
+ mean_rt_sema_str = string(mean_rt_sema);
+mean_rt_sema_text = append('Average Response Time in Semantic Condition =', char(mean_rt_sema_str));% do this for all 3 conditions at the end of everything
+
+
+Screen('DrawText', mainwin, mean_rt_sema_text, center(1), center(2)*.33); %this one should be printed at the centre top of the screen roughly
+Screen('DrawText', mainwin, mean_rt_unrel_text, center(1), center(2)*.5); %this at the centre centre
+Screen('DrawText', mainwin, mean_rt_synt_text, center(1), center(2)*.66); %not sure how to place this at the bottom
+      
         
 sca;
