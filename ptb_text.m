@@ -19,6 +19,7 @@ black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = white; textcolor = black;
+location = 0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Screen parameters
 [mainwin, screenrect] = Screen(0, 'OpenWindow'); %screenrect = [left top right bottom]
@@ -104,7 +105,7 @@ while 1
 end
 WaitSecs(0.3);
 %%%%% 
-location = 0;
+
 for ii = 1:45
 %in trial loop after star position is randomized 
 
@@ -114,18 +115,19 @@ trial_choice = [str1; str2];% turn choice into column vector to use shuffle func
 mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
 char1 = char(mytext(1));
 char2 = char(mytext(2));
-if mytext(1) == str2 %check were prompt word ended up after shuffle
-    %Nada: you can just have location = find(mytext,str2); instead of
-    %condition, then%
-    %%if location == 1 
-    %   correct_key = 79 or keyCode(Key1); 
-    %else
-    %   correct_key = 80 or keyCode(Key2);
-    %end
-    location = 1;
-else
-    location = 2;
-end
+location = find(mytest,str2);
+% if mytext(1) == str2 %check were prompt word ended up after shuffle
+%     %Nada: you can just have location = find(mytext,str2); instead of
+%     %condition, then%
+%     %%if location == 1 
+%     %   correct_key = 79 or keyCode(Key1); 
+%     %else
+%     %   correct_key = 80 or keyCode(Key2);
+%     %end
+%     location = 1;
+% else
+%     location = 2;
+% end
  Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
 
