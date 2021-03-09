@@ -31,17 +31,17 @@ Screen(mainwin, 'Flip');
 %KbStrokeWait;
 %sca; 
 %%%%%%%
-sad = ["Sad" "Bug" "Peanut" "Water" "Depressed" "Unhappy" "Miserable" "Sed" "Said" "Scared"];
+sad = ["Sad" "Bug" "Peanut" "Water" "Depressed" "Unhappy" "Miserable" "Sed" "Said" "Scad"];
 happy = ["Happy" "Cantaloupe" "Unicorn" "Toes" "Delighted" "Joyful" "Glad" "Hobby" "Hoppy" "Hippy"];
 scared = ["Scared" "Slipper" "Round" "Porch" "Afraid" "Frightened" "Terrified" "Squared" "Scarred" "Scored"];
 nervous = ["Nervous" "Gate" "Lost" "Bumper" "Stressed" "Anxious" "Worried" "Nervus" "Famous" "Nervosa"];
 angry = ["Angry" "Clip" "Orange" "Pink" "Furious" "Upset" "Mad" "Ambry" "Hungry" "Anger"];
 red = ["Red" "Bug" "Peanut" "Water" "Blood" "Tomato" "Crimson" "Reed" "Rid" "Rod"];
 black = ["Black" "Cantaloupe" "Unicorn" "Toes" "Crow" "Ebony" "Midnight" "Back" "Block" "Blake"];
-blue = ["Blue" "Slipper" "Round" "Porch" "Sky" "Navy" "Ocean" "Blu" "Blew" "Blue"];
+blue = ["Blue" "Slipper" "Round" "Porch" "Sky" "Navy" "Ocean" "Blu" "Blew" "Bleu"];
 teal = ["Teal" "Gate" "Lost" "Bumper" "Turquoise" "Aqua" "Cyan" "Teale" "Tale" "Teel"];
 green = ["Green" "Orange" "Pink" "Furious" "Mint" "Grass" "Leaf" "Greene" "Gene" "Grene"];
-cat = ["Cat" "Bug" "Peanut" "Water" "Meow" "Kitten" "Feline" "Cut" "Kat" "Chat"];
+cat = ["Cat" "Bug" "Peanut" "Water" "Meow" "Kitten" "Feline" "Cot" "Kat" "Chat"];
 dog = ["Dog" "Cantaloupe" "Unicorn" "Toes" "Bark" "Canine" "Puppy" "Dug" "Doggy" "Doug"];
 bird = ["Bird" "Slipper" "Round" "Porch" "Fly" "Wings" "Chirp" "Birdy" "Birde" "Bride"];
 fish = ["Fish" "Gate" "Lost" "Bumper" "Ocean" "Scale" "Swim" "Fisch" "Fiche" "Fishy"];
@@ -117,10 +117,17 @@ for ii = 1:45
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
-mytext = Shuffle(trial_choice);
+mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
 char1 = char(mytext(1));
 char2 = char(mytext(2));
-if mytext(1) == str1 %check were prompt word ended up after shuffle
+if mytext(1) == str2 %check were prompt word ended up after shuffle
+    %Nada: you can just have location = find(mytext,str2); instead of
+    %condition, then%
+    %%if location == 1 
+    %   correct_key = 79 or keyCode(Key1); 
+    %else
+    %   correct_key = 80 or keyCode(Key2);
+    %end
     location = 1;
 else
     location = 2;
@@ -141,23 +148,27 @@ end
                     nKeys = sum(keyCode);
                     if nKeys==1
                         if keyCode(Key1)||keyCode(Key2) 
-                            %put conditions here 
-                            rt = 1000.*(GetSecs-timeStart);
-                            keypressed=find(keyCode);
-                            Screen('Flip', mainwin);
-                            break;
+                            %put conditions here
+                       %Nada: extra condition%       
+                            %if getkey == correct_key (defined in line 124 comment) 
+                                rt = 1000.*(GetSecs-timeStart);
+                                keypressed=find(keyCode);
+                                Screen('Flip', mainwin);
+                                break;
+                            %end
                         elseif keyCode(escKey)
                             ShowCursor;  Screen('CloseAll'); return
                         end
                         keyIsDown=0; keyCode=0;
                     end
                 end
-            end
+         end
 %             if (keypressed==corrkey(1)&&answer==1)||(keypressed==corrkey(2)&&answer==2)
 %                 correct=1;Snd('Play', Beep4);
 %                 % doesnt apply bc there is no incorrect answer
 %                 %Manipulate this part so that Rt is only recorded on
 %                 %correct key presses
+%
 %             else
 %                 correct=0; Snd('Play', Beep1); WaitSecs(ErrorDelay);
             %end
@@ -166,6 +177,7 @@ end
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
         WaitSecs(1);
-        end
+end
+        
         
 sca;
