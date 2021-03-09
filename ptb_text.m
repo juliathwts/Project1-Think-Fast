@@ -23,9 +23,9 @@ location = 0;
 unrel_counter = 1;
 synt_counter = 1;
 sema_counter = 1;
-rt_unrel = zeros(1,15);
-rt_synt = zeros(1,15);
-rt_sema = zeros(1,15);
+rt_unrel = ones(1,15);
+rt_synt = ones(1,15);
+rt_sema = ones(1,15);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Screen parameters
@@ -111,7 +111,7 @@ end
 WaitSecs(0.3);
 %%%%% 
 
-for ii = 1:45
+for ii = 1:2
 %in trial loop after star position is randomized 
 
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
@@ -151,7 +151,7 @@ char2 = char(mytext(2));
                             %put conditions here
                        %Nada: extra condition%       
                             %if getkey == correct_key (defined in line 124 comment) 
-                                rt = 1000.*(GetSecs-timeStart);
+                                rt = GetSecs-timeStart; %1000.*
                                 keypressed=find(keyCode);
                                 Screen('Flip', mainwin);
                                 break;
@@ -191,22 +191,23 @@ end
 
 mean_rt_sema = mean(rt_sema);
 mean_rt_sema_str = string(mean_rt_sema);
-mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str);% do this for all 3 conditions at the end of everything
+mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str,' secs');% do this for all 3 conditions at the end of everything
 sema_text = char(mean_rt_sema_text);
 
 mean_rt_unrel = mean(rt_unrel);
 mean_rt_unrel_str = string(mean_rt_unrel);
-mean_rt_unrel_text = append('Average Response Time in Unrelated Condition =', mean_rt_unrel_str);
+mean_rt_unrel_text = append('Average Response Time in Unrelated Condition =', mean_rt_unrel_str,' secs');
 unrel_text = char(mean_rt_unrel_text);
 
 mean_rt_synt = mean(rt_synt);
 mean_rt_synt_str = string(mean_rt_synt);
-mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str);
+mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str,' secs');
 synt_text = char(mean_rt_synt_text);
 
-Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)*.33); %this one should be printed at the centre top of the screen roughly
-Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)*.5); %this at the centre centre
-Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)*.66); %not sure how to place this at the bottom
+Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
+Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
+Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)); %this at the centre centre
+Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)+35); %not sure how to place this at the bottom
 
 Screen('Flip', mainwin);
 
