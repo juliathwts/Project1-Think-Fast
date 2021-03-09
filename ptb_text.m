@@ -17,19 +17,17 @@ corrkey = [80, 79]; % left and right arrow
 white_I = WhiteIndex(screenNumber);
 black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
-%gray = [127 127 127 ];
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = white; textcolor = black;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Screen parameters
-[mainwin, screenrect] = Screen(0, 'OpenWindow');
+[mainwin, screenrect] = Screen(0, 'OpenWindow'); %screenrect = [left top right bottom]
 Screen('FillRect', mainwin, bgcolor);
 center = [screenrect(3)/2 screenrect(4)/2];
 centerq1 = [screenrect(3)/4 screenrect(4)/2];
 centerq2 = [screenrect(3)*.75 screenrect(4)/2];
 Screen(mainwin, 'Flip');
-%KbStrokeWait;
-%sca; 
+
 %%%%%%%
 sad = ["Sad" "Bug" "Peanut" "Water" "Depressed" "Unhappy" "Miserable" "Sed" "Said" "Scad"];
 happy = ["Happy" "Cantaloupe" "Unicorn" "Toes" "Delighted" "Joyful" "Glad" "Hobby" "Hoppy" "Hippy"];
@@ -109,11 +107,7 @@ WaitSecs(0.3);
 location = 0;
 for ii = 1:45
 %in trial loop after star position is randomized 
-%psychImaging and screen command are conflicting????
-% [window, windowRect] = PsychImaging('OpenWindow', screenNumber,grey);
-% [screenXpixels, screenYpixels] = Screen('WindowSize', window);
-% Screen('TextSize', window, 50);
-% Screen('TextFont', window, 'Times');
+
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
@@ -134,8 +128,7 @@ else
 end
  Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
-% DrawFormattedText(window, char1 , 'center', screenYpixels * 0.5, [0 1 0],[],[],[],[],[],[1 1 screenXpixels *0.5 screenYpixels]);
-% DrawFormattedText(window, char2, 'center', screenYpixels * 0.5, [0 1 0],[],[],[],[],[],[screenXpixels *0.5 1 screenXpixels screenYpixels]);
+
  Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
         %ShowCursor('hand');       
         
@@ -173,7 +166,6 @@ end
 %                 correct=0; Snd('Play', Beep1); WaitSecs(ErrorDelay);
             %end
            
-            %is there a flipping issue here??
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
         WaitSecs(1);
