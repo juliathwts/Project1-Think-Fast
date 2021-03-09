@@ -19,7 +19,7 @@ black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = white; textcolor = black;
-%location = 0;
+location = 0;
 unrel_counter = 1;
 synt_counter = 1;
 sema_counter = 1;
@@ -91,8 +91,8 @@ exp_order = rot90(exp_order); %now prompt words are all in row 2
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
 % Revanna: modify instruction text here
-Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location (left or right) of the prompt word.',center(1)-300,center(2)-20,textcolor);
-Screen('DrawText',mainwin, 'Press spacebar to start the experiment.', center(1)-300,center(2)-20,textcolor);
+Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word.' ,center(1)-350,center(2)-20,textcolor);
+Screen('DrawText',mainwin,'Press spacebar to start the experiment' ,center(1)-350,center(2)+30,textcolor);
 Screen('Flip',mainwin );
 
 keyIsDown=0;
@@ -103,7 +103,6 @@ while 1
             break ;
         elseif keyCode(escKey)
             ShowCursor;
-            fclose(outfile);
             Screen('CloseAll');
             return;
         end
