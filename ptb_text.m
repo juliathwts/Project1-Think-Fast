@@ -19,7 +19,14 @@ black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = white; textcolor = black;
-location = 0;
+%location = 0;
+unrel_counter = 1;
+synt_counter = 1;
+sema_counter = 1;
+rt_unrel = ones(1,15);
+rt_synt = ones(1,15);
+rt_sema = ones(1,15);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Screen parameters
 [mainwin, screenrect] = Screen(0, 'OpenWindow'); %screenrect = [left top right bottom]
@@ -105,7 +112,7 @@ end
 WaitSecs(0.3);
 %%%%% 
 
-for ii = 1:45
+for ii = 1:15
 %in trial loop after star position is randomized 
 
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
@@ -114,8 +121,13 @@ trial_choice = [str1; str2];% turn choice into column vector to use shuffle func
 mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
 char1 = char(mytext(1));
 char2 = char(mytext(2));
-%location = find(mytest,str2);
-% if mytext(1) == str2 %check were prompt word ended up after shuffle
+% find function didnt work bc incorrect data type
+%check were prompt word ended up after shuffle
+if mytext(1) == str2 
+    location = 1;
+else
+    location = 2;
+end
 %     %Nada: you can just have location = find(mytext,str2); instead of
 %     %condition, then%
 %     %%if location == 1 
@@ -144,12 +156,17 @@ char2 = char(mytext(2));
                         if keyCode(Key1)||keyCode(Key2) 
                             %put conditions here
                        %Nada: extra condition%       
-                            %if getkey == correct_key (defined in line 124 comment) 
-                                rt = 1000.*(GetSecs-timeStart);
+                             if keyCode(Key1) && location == 1 %if getkey == correct_key (defined in line 124 comment) 
+                                rt = GetSecs-timeStart; 
                                 keypressed=find(keyCode);
                                 Screen('Flip', mainwin);
                                 break;
-                            %end
+                             elseif keyCode(Key2) && location ==2
+                                  rt = GetSecs-timeStart; 
+                                keypressed=find(keyCode);
+                                Screen('Flip', mainwin);
+                                break;
+                             end
                         elseif keyCode(escKey)
                             ShowCursor;  Screen('CloseAll'); return
                         end
@@ -163,14 +180,9 @@ unrel_wrd = sum(sum(str1 == words(:,2:4)));
 synt_wrd = sum(sum(str1 == words(:,5:7)));
 sema_wrd = sum(sum(str1 == words(:,8:10)));
 % brainstorming how to connect boolean variables to RT loop 
-rt_unrel = ones(1,15);
-rt_synt = ones(1,15);
-rt_sema = ones(1,15);
-unrel_counter = 1;
-synt_counter = 1;
-sema_counter = 1;
+
 if unrel_wrd > 0
-    rt_unrel(unrel_counter) = rt; 
+    rt_unrel(unrel_counter) = rt;
     unrel_counter = unrel_counter +1; 
 elseif synt_wrd > 0
     rt_synt(synt_counter) = rt;
@@ -190,25 +202,25 @@ end
 
 mean_rt_sema = mean(rt_sema);
 mean_rt_sema_str = string(mean_rt_sema);
-mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str);% do this for all 3 conditions at the end of everything
+mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str,' secs');% do this for all 3 conditions at the end of everything
 sema_text = char(mean_rt_sema_text);
 
 mean_rt_unrel = mean(rt_unrel);
 mean_rt_unrel_str = string(mean_rt_unrel);
-mean_rt_unrel_text = append('Average Response Time in Unrelated Condition =', mean_rt_unrel_str);
+mean_rt_unrel_text = append('Average Response Time in Unrelated Condition =', mean_rt_unrel_str,' secs');
 unrel_text = char(mean_rt_unrel_text);
 
 mean_rt_synt = mean(rt_synt);
 mean_rt_synt_str = string(mean_rt_synt);
-mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str);
+mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str,' secs');
 synt_text = char(mean_rt_synt_text);
 
-Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)*.33); %this one should be printed at the centre top of the screen roughly
-Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)*.5); %this at the centre centre
-Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)*.66); %not sure how to place this at the bottom
+Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
+Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)); %this at the centre centre
+Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
+Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)+35); %not sure how to place this at the bottom
 
 Screen('Flip', mainwin);
 
-WaitSecs(3);
-        
+WaitSecs(3);       
 sca;
