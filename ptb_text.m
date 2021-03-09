@@ -111,7 +111,7 @@ end
 WaitSecs(0.3);
 %%%%% 
 
-for ii = 1:15
+for ii = 1:45
 %in trial loop after star position is randomized 
 
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
