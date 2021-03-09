@@ -53,7 +53,7 @@ exp_words(:,1)= ["Sad" "Sad" "Sad" "Happy" "Happy" "Happy" "Scared" "Scared" "Sc
     "Green" "Green" "Cat" "Cat" "Cat" "Dog" "Dog" "Dog" "Bird" "Bird" "Bird" "Fish" "Fish" "Fish" "Rabbit" "Rabbit" "Rabbit"];
 
 for ii = 1:15
-    exp_words(ii*3 -2,2) = words(ii,randi([2 4],1,1));
+    exp_words(ii*3 -2,2) = words(ii,randi([2 4],1,1)); 
     exp_words(ii*3 -1,2) = (words(ii,randi([5 7],1,1)));
     exp_words(ii*3 ,2) = (words(ii,randi([8 10],1,1)));
 end
