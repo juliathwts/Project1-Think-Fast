@@ -59,6 +59,7 @@ exp_words(:,1)= ["Sad" "Sad" "Sad" "Happy" "Happy" "Happy" "Scared" "Scared" "Sc
     "Angry" "Angry" "Angry" "Red" "Red" "Red" "Black" "Black" "Black" "Blue" "Blue" "Blue" "Teal" "Teal" "Teal" "Green" ...
     "Green" "Green" "Cat" "Cat" "Cat" "Dog" "Dog" "Dog" "Bird" "Bird" "Bird" "Fish" "Fish" "Fish" "Rabbit" "Rabbit" "Rabbit"];
 
+%loop to randomize words%
 for ii = 1:15
     exp_words(ii*3 -2,2) = words(ii,randi([2 4],1,1)); 
     exp_words(ii*3 -1,2) = (words(ii,randi([5 7],1,1)));
@@ -90,11 +91,13 @@ exp_order = rot90(exp_order); %now prompt words are all in row 2
 %   Experimental instructions, wait for a spacebar response to start
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
-% Revanna: modify instruction text here
+% Display instruction text here
 Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word.' ,center(1)-350,center(2)-20,textcolor);
 Screen('DrawText',mainwin,'Press spacebar to start the experiment' ,center(1)-350,center(2)+30,textcolor);
 Screen('Flip',mainwin );
 
+%%Determining effect of pressed keys. 
+%effect = start OR close if esc.
 keyIsDown=0;
 while 1
     [keyIsDown, secs, keyCode] = KbCheck;
@@ -117,27 +120,18 @@ for ii = 1:15
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
-mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
-char1 = char(mytext(1));
+mytext = Shuffle(trial_choice);  %randomize the order of the choice words
+char1 = char(mytext(1));    %switch to char so it can be displayed with screen
 char2 = char(mytext(2));
 % find function didnt work bc incorrect data type
-%check were prompt word ended up after shuffle
+%find where prompt word ended up after shuffle
 if mytext(1) == str2 
     location = 1;
 else
     location = 2;
 end
-%     %Nada: you can just have location = find(mytext,str2); instead of
-%     %condition, then%
-%     %%if location == 1 
-%     %   correct_key = 79 or keyCode(Key1); 
-%     %else
-%     %   correct_key = 80 or keyCode(Key2);
-%     %end
-%     location = 1;
-% else
-%     location = 2;
-% end
+
+%Displayign the choice options
  Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
 
@@ -146,27 +140,28 @@ end
         
         %now record response
         timeStart = GetSecs;keyIsDown=0; correct=0; rt=0;
+        
+        %%Determining effect of first pressed keys. 
+        %effect = record time if left/right arrows are pressed correctly OR close if esc.
+        %Loop is to ensure reaction time id calculated correctly regardless
+        %of how many times wrong arrow is pressed
          while 1
                 [keyIsDown, secs, keyCode] = KbCheck;
                 FlushEvents('keyDown');
-                if keyIsDown
-                    nKeys = sum(keyCode);
-                    if nKeys==1
+                if keyIsDown    %Assess if a key is pressed
+                    nKeys = sum(keyCode);       %Assess number of keys pressed
+                    if nKeys==1     
                         if keyCode(Key1)||keyCode(Key2) 
-                            %put conditions here
-                       %Nada: extra condition%       
-                             if keyCode(Key1) && location == 1 %if getkey == correct_key (defined in line 124 comment) 
-                                rt = GetSecs-timeStart; 
-                                keypressed=find(keyCode);
-                                Screen('Flip', mainwin);
+                             if keyCode(Key1) && location == 1  %Press left arrow key correctly
+                                rt = GetSecs-timeStart;     %Calculate time since the 2 options appeared and key was pressed
+                                Screen('Flip', mainwin);    %Switch screen
                                 break;
-                             elseif keyCode(Key2) && location ==2
+                             elseif keyCode(Key2) && location ==2 %Press right arrow correctly
                                   rt = GetSecs-timeStart; 
-                                keypressed=find(keyCode);
                                 Screen('Flip', mainwin);
                                 break;
                              end
-                        elseif keyCode(escKey)
+                        elseif keyCode(escKey)  %esc key pressed
                             ShowCursor;  Screen('CloseAll'); return
                         end
                         keyIsDown=0; keyCode=0;
@@ -177,9 +172,9 @@ end
  % RT data 
 unrel_wrd = sum(sum(str1 == words(:,2:4)));
 synt_wrd = sum(sum(str1 == words(:,5:7)));
-sema_wrd = sum(sum(str1 == words(:,8:10)));
-% brainstorming how to connect boolean variables to RT loop 
+sema_wrd = sum(sum(str1 == words(:,8:10))); 
 
+%Assign recorded reaction time to correct category vector and correct index
 if unrel_wrd > 0
     rt_unrel(unrel_counter) = rt;
     unrel_counter = unrel_counter +1; 
@@ -199,6 +194,8 @@ end
         
 end
 
+%Calculate average reaction time for semantic/syntactic/no primimg
+%wors
 mean_rt_sema = mean(rt_sema);
 mean_rt_sema_str = string(mean_rt_sema);
 mean_rt_sema_text = append('Average Response Time in Semantic Condition =', mean_rt_sema_str,' secs');% do this for all 3 conditions at the end of everything
@@ -214,6 +211,7 @@ mean_rt_synt_str = string(mean_rt_synt);
 mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str,' secs');
 synt_text = char(mean_rt_synt_text);
 
+%%Display result%%
 Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
 Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)); %this at the centre centre
 Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
