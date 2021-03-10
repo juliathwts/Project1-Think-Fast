@@ -9,7 +9,7 @@ PsychDefaultSetup(2);
 % testing ptb - creating grey screen
 screens = Screen('Screens');
 screenNumber = max(screens);      
-rand('state', sum(100*clock)); %zeroing computer clock for RT recording??
+rand('state', sum(100*clock)); %zeroing computer clock for RT recording
 KbName('UnifyKeyNames');
 Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
@@ -100,6 +100,7 @@ for ii = 1:45
 
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
+pt_word = char(str2); %convert prompt word to characters for screen command
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
 mytext = Shuffle(trial_choice); %Nada: did shuffle actually work? cause for me I have to use trial_choice(randperm(2)) every single time!!!!
 char1 = char(mytext(1));
@@ -111,12 +112,20 @@ if mytext(1) == str2
 else
     location = 2;
 end
+%%%% display prompt word 
+Screen('TextSize', mainwin, 50);
+Screen('DrawText',mainwin,pt_word ,center(1)-20,center(2)-20,textcolor);
+Screen('Flip', mainwin); % display prompt word
+WaitSecs(0.6); %time to remember prompt word
+Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin); %display blank screen
+WaitSecs(0.8); %time interval between prompt word and choice
 
+%%%%%% display choice 
  Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
 
  Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
-        %ShowCursor('hand');       
+           
         
         %now record response
         timeStart = GetSecs;keyIsDown=0; correct=0; rt=0;
@@ -126,10 +135,8 @@ end
                 if keyIsDown
                     nKeys = sum(keyCode);
                     if nKeys==1
-                        if keyCode(Key1)||keyCode(Key2) 
-                            %put conditions here
-                       %Nada: extra condition%       
-                             if keyCode(Key1) && location == 1 %if getkey == correct_key (defined in line 124 comment) 
+                        if keyCode(Key1)||keyCode(Key2)       
+                             if keyCode(Key1) && location == 1 
                                 rt = GetSecs-timeStart; 
                                 keypressed=find(keyCode);
                                 Screen('Flip', mainwin);
@@ -167,7 +174,7 @@ end
            
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
-        WaitSecs(1);
+        WaitSecs(0.5);
         %%%%%%%%%% 
         
         
