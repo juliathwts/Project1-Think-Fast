@@ -18,7 +18,7 @@ white_I = WhiteIndex(screenNumber);
 black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
 white = [ 255 255 255]; black = [ 0 0 0];
-bgcolor = white; textcolor = black;
+bgcolor = black; textcolor = white;
 location = 0;
 unrel_counter = 1;
 synt_counter = 1;
@@ -74,6 +74,7 @@ exp_order = rot90(exp_order); %now prompt words are all in row 2
 %   Experimental instructions, wait for a spacebar response to start
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
+Screen('TextFont', mainwin, 'Times');
 % Revanna: modify instruction text here
 Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word.' ,center(1)-350,center(2)-20,textcolor);
 Screen('DrawText',mainwin,'Press spacebar to start the experiment' ,center(1)-350,center(2)+30,textcolor);
@@ -121,8 +122,8 @@ Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin); %display blank sc
 WaitSecs(0.8); %time interval between prompt word and choice
 
 %%%%%% display choice 
- Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
- Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
+ Screen('DrawText',mainwin,char1 ,centerq1(1)+50,centerq1(2)-20,textcolor);
+ Screen('DrawText',mainwin,char2 ,centerq2(1)-150,centerq2(2)-20,textcolor);
 
  Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
            
@@ -137,13 +138,11 @@ WaitSecs(0.8); %time interval between prompt word and choice
                     if nKeys==1
                         if keyCode(Key1)||keyCode(Key2)       
                              if keyCode(Key1) && location == 1 
-                                rt = GetSecs-timeStart; 
-                                keypressed=find(keyCode);
+                                rt = GetSecs-timeStart;                              
                                 Screen('Flip', mainwin);
                                 break;
                              elseif keyCode(Key2) && location ==2
-                                  rt = GetSecs-timeStart; 
-                                keypressed=find(keyCode);
+                                rt = GetSecs-timeStart;                               
                                 Screen('Flip', mainwin);
                                 break;
                              end
@@ -195,10 +194,11 @@ mean_rt_synt_str = string(mean_rt_synt);
 mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str,' secs');
 synt_text = char(mean_rt_synt_text);
 
+Screen('TextSize', mainwin, 24);
 Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
-Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)); %this at the centre centre
+Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)+35); %this at the centre centre
 Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
-Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)+35); %not sure how to place this at the bottom
+Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)); %not sure how to place this at the bottom
 
 Screen('Flip', mainwin);
 
