@@ -31,12 +31,12 @@ rt_sema = ones(1,15);
 %   Screen parameters
 [mainwin, screenrect] = Screen(0, 'OpenWindow'); %screenrect = [left top right bottom]
 Screen('FillRect', mainwin, bgcolor);
-center = [screenrect(3)/2 screenrect(4)/2];
-centerq1 = [screenrect(3)/4 screenrect(4)/2];
-centerq2 = [screenrect(3)*.75 screenrect(4)/2];
+center = [screenrect(3)/2 screenrect(4)/2];     %position of prompt word in prompt screen
+centerq1 = [screenrect(3)/4 screenrect(4)/2];   %position of prompt word in choice screen
+centerq2 = [screenrect(3)*.75 screenrect(4)/2]; %position of choice word in chocie screen
 Screen(mainwin, 'Flip');
 
-%%%%%%%
+%%%%%%% vectors of choice words associated with each prompt word
 sad = ["Sad" "Bug" "Peanut" "Water" "Depressed" "Unhappy" "Miserable" "Sed" "Said" "Scad"];
 happy = ["Happy" "Cantaloupe" "Unicorn" "Toes" "Delighted" "Joyful" "Glad" "Hobby" "Hoppy" "Hippy"];
 scared = ["Scared" "Slipper" "Round" "Porch" "Afraid" "Frightened" "Terrified" "Squared" "Scarred" "Scored"];
@@ -59,7 +59,7 @@ exp_words(:,1)= ["Sad" "Sad" "Sad" "Happy" "Happy" "Happy" "Scared" "Scared" "Sc
     "Angry" "Angry" "Angry" "Red" "Red" "Red" "Black" "Black" "Black" "Blue" "Blue" "Blue" "Teal" "Teal" "Teal" "Green" ...
     "Green" "Green" "Cat" "Cat" "Cat" "Dog" "Dog" "Dog" "Bird" "Bird" "Bird" "Fish" "Fish" "Fish" "Rabbit" "Rabbit" "Rabbit"];
 
-%loop to randomize words%
+%loop to randomizes, in an organized way, the assignment of choice words from each category in second column of exp_words to col 1 words%
 for ii = 1:15
     exp_words(ii*3 -2,2) = words(ii,randi([2 4],1,1)); 
     exp_words(ii*3 -1,2) = (words(ii,randi([5 7],1,1)));
@@ -81,7 +81,7 @@ Screen('DrawText',mainwin,'Press spacebar to start the experiment' ,center(1)-35
 Screen('Flip',mainwin );
 
 %%Determining effect of pressed keys. 
-%effect = start OR close if esc.
+%effect = start if space OR close if esc.
 keyIsDown=0;
 while 1
     [keyIsDown, secs, keyCode] = KbCheck;
@@ -153,6 +153,7 @@ end
                     end
                 end
          end
+         
  % code to determine thematic category of choice word/ storing category of
  % RT data 
 unrel_wrd = sum(sum(str1 == words(:,2:4)));
