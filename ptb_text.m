@@ -1,29 +1,36 @@
-%%%%%%% First time integrating elements 
-%%%%%%%%%%%%%%
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Project Think FastTM 
+% This code measures reaction times with differentlly related words. The 
+% prompt words are drawn from three categories:
+% emotions, colors, and animals. We measured differences in reaction times
+% between unrelated words, semantically related words, and syntactically 
+% related words. Each experiment includes 45 randomized choices, with a
+% final comaprison of reaction times with 15 of each thematic type
+% (unrelated, sematically, and syntactially related). The final output is
+% given as a mean reaction time for each thematic category. 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
 % Basic setup, intializing variables 
+% closing all screens and clearing variables 
 sca;
 close all;
 clear all;
-Screen('preference', 'SkipSyncTests', 1);
-PsychDefaultSetup(2);
-% testing ptb - creating grey screen
+Screen('preference', 'SkipSyncTests', 1); %skipping vbl synchroization tests
+PsychDefaultSetup(2); %access standard ptb settings
 screens = Screen('Screens');
-screenNumber = max(screens);      
+screenNumber = max(screens); %assign max screen to ptb display
 rand('state', sum(100*clock)); %zeroing computer clock for RT recording
-KbName('UnifyKeyNames');
-Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
+KbName('UnifyKeyNames'); %
+Key1=KbName('LeftArrow'); Key2=KbName('RightArrow'); %
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
-corrkey = [80, 79]; % left and right arrow
-white_I = WhiteIndex(screenNumber);
-black_I = BlackIndex(screenNumber);
-grey = white_I/2; 
-white = [ 255 255 255]; black = [ 0 0 0];
+white = [ 255 255 255]; black = [ 0 0 0]; %
 bgcolor = black; textcolor = white;
-location = 0;
+% initializing variables used in loop
+% location = 0; 
 unrel_counter = 1;
 synt_counter = 1;
 sema_counter = 1;
-rt_unrel = ones(1,15);
+rt_unrel = ones(1,15); %preallocating 
 rt_synt = ones(1,15);
 rt_sema = ones(1,15);
 
