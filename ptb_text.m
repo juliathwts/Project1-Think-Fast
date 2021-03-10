@@ -64,23 +64,7 @@ for ii = 1:15
     exp_words(ii*3 -1,2) = (words(ii,randi([5 7],1,1)));
     exp_words(ii*3 ,2) = (words(ii,randi([8 10],1,1)));
 end
-%create boolean statements to determine if str word is unrelated, syntactic, or semantic 
-% XXXX_wrd is >= 1 if target_wrd is in that category, 0 otherwise
-target_wrd = words(1,4) ;
-unrel_wrd = sum(sum(target_wrd == words(:,2:4)));
-synt_wrd = sum(sum(target_wrd == words(:,5:7)));
-sema_wrd = sum(sum(target_wrd == words(:,8:10)));
-% brainstorming how to connect boolean variables to RT loop 
-rt_unrel = 0;
-rt_synt = 0;
-rt_sema = 0;
-if unrel_wrd > 0
-    rt_unrel = rt_unrel + 1;
-elseif synt_wrd > 0
-    rt_synt = rt_synt + 1;
-elseif sema_wrd > 0
-    rt_sema = rt_sema + 1;
-end
+
 
 %rearrange exp_words to mix order
 exp_order = (exp_words(randperm(45),:));
@@ -127,17 +111,7 @@ if mytext(1) == str2
 else
     location = 2;
 end
-%     %Nada: you can just have location = find(mytext,str2); instead of
-%     %condition, then%
-%     %%if location == 1 
-%     %   correct_key = 79 or keyCode(Key1); 
-%     %else
-%     %   correct_key = 80 or keyCode(Key2);
-%     %end
-%     location = 1;
-% else
-%     location = 2;
-% end
+
  Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
 
