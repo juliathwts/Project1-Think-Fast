@@ -9,7 +9,7 @@ PsychDefaultSetup(2);
 % testing ptb - creating grey screen
 screens = Screen('Screens');
 screenNumber = max(screens);      
-rand('state', sum(100*clock)); %zeroing computer clock for RT recording??
+rand('state', sum(100*clock)); %zeroing computer clock for RT recording
 KbName('UnifyKeyNames');
 Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
@@ -18,7 +18,7 @@ white_I = WhiteIndex(screenNumber);
 black_I = BlackIndex(screenNumber);
 grey = white_I/2; 
 white = [ 255 255 255]; black = [ 0 0 0];
-bgcolor = white; textcolor = black;
+bgcolor = black; textcolor = white;
 location = 0;
 unrel_counter = 1;
 synt_counter = 1;
@@ -65,23 +65,7 @@ for ii = 1:15
     exp_words(ii*3 -1,2) = (words(ii,randi([5 7],1,1)));
     exp_words(ii*3 ,2) = (words(ii,randi([8 10],1,1)));
 end
-%create boolean statements to determine if str word is unrelated, syntactic, or semantic 
-% XXXX_wrd is >= 1 if target_wrd is in that category, 0 otherwise
-target_wrd = words(1,4) ;
-unrel_wrd = sum(sum(target_wrd == words(:,2:4)));
-synt_wrd = sum(sum(target_wrd == words(:,5:7)));
-sema_wrd = sum(sum(target_wrd == words(:,8:10)));
-% brainstorming how to connect boolean variables to RT loop 
-rt_unrel = 0;
-rt_synt = 0;
-rt_sema = 0;
-if unrel_wrd > 0
-    rt_unrel = rt_unrel + 1;
-elseif synt_wrd > 0
-    rt_synt = rt_synt + 1;
-elseif sema_wrd > 0
-    rt_sema = rt_sema + 1;
-end
+
 
 %rearrange exp_words to mix order
 exp_order = (exp_words(randperm(45),:));
@@ -114,11 +98,12 @@ end
 WaitSecs(0.3);
 %%%%% 
 
-for ii = 1:15
+for ii = 1:45
 %in trial loop after star position is randomized 
 
 str1 = exp_order(1,ii); % str1 = CHOICE WORD
 str2 = exp_order(2, ii); %sstr2 = PROMPT WORD 
+pt_word = char(str2); %convert prompt word to characters for screen command
 trial_choice = [str1; str2];% turn choice into column vector to use shuffle function
 mytext = Shuffle(trial_choice);  %randomize the order of the choice words
 char1 = char(mytext(1));    %switch to char so it can be displayed with screen
@@ -136,7 +121,7 @@ end
  Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
 
  Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
-        %ShowCursor('hand');       
+           
         
         %now record response
         timeStart = GetSecs;keyIsDown=0; correct=0; rt=0;
@@ -177,7 +162,7 @@ sema_wrd = sum(sum(str1 == words(:,8:10)));
 %Assign recorded reaction time to correct category vector and correct index
 if unrel_wrd > 0
     rt_unrel(unrel_counter) = rt;
-    unrel_counter = unrel_counter +1; 
+    unrel_counter = unrel_counter +1; %move index up by 1
 elseif synt_wrd > 0
     rt_synt(synt_counter) = rt;
     synt_counter = synt_counter + 1;
@@ -188,7 +173,7 @@ end
            
             Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin);
         
-        WaitSecs(1);
+        WaitSecs(0.5);
         %%%%%%%%%% 
         
         
@@ -213,9 +198,9 @@ synt_text = char(mean_rt_synt_text);
 
 %%Display result%%
 Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
-Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)); %this at the centre centre
+Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)+35); %this at the centre centre
 Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
-Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)+35); %not sure how to place this at the bottom
+Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)); %not sure how to place this at the bottom
 
 Screen('Flip', mainwin);
 
