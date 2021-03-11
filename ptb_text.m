@@ -6,20 +6,24 @@ close all;
 clear all;
 Screen('preference', 'SkipSyncTests', 1);
 PsychDefaultSetup(2);
-% testing ptb - creating grey screen
+
+%choosing the primary screen for the display of the program
 screens = Screen('Screens');
-screenNumber = max(screens);      
+screenNumber = max(screens); 
+
 rand('state', sum(100*clock)); %zeroing computer clock for RT recording
-KbName('UnifyKeyNames');
-Key1=KbName('LeftArrow'); Key2=KbName('RightArrow');
-spaceKey = KbName('space'); escKey = KbName('ESCAPE');
-corrkey = [80, 79]; % left and right arrow
-white_I = WhiteIndex(screenNumber);
-black_I = BlackIndex(screenNumber);
-grey = white_I/2; 
+KbName('UnifyKeyNames');    %unifying key names for all types of laptops
+
+%Assigning buttons to variables
+Key1=KbName('LeftArrow');
+Key2=KbName('RightArrow');
+spaceKey = KbName('space');
+escKey = KbName('ESCAPE');
+
 white = [ 255 255 255]; black = [ 0 0 0];
 bgcolor = black; textcolor = white;
-location = 0;
+
+%Initiating variables for RT recording loop
 unrel_counter = 1;
 synt_counter = 1;
 sema_counter = 1;
@@ -180,7 +184,8 @@ end
         
 end
 
-%Calculate average reaction time for semantic/syntactic/no primimg
+%Calculate average reaction time for semantic/syntactic/no primimg and
+%create text for it
 %wors
 mean_rt_sema = mean(rt_sema);
 mean_rt_sema_str = string(mean_rt_sema);
