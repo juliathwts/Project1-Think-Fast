@@ -147,7 +147,7 @@ Screen('DrawText',mainwin,pt_word ,center(1)-20,center(2)-20,textcolor);
 Screen('Flip', mainwin); % display prompt word
 WaitSecs(0.6); %display period in seconds of prompt word
 Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin); %display blank screen
-WaitSecs(0.8); %time interval between prompt word and choice
+WaitSecs(0.6); %time interval between prompt word and choice
 
 %%%%%% display choice 
  Screen('DrawText',mainwin,char1 ,centerq1(1)+50,centerq1(2)-20,textcolor);
@@ -188,9 +188,9 @@ WaitSecs(0.8); %time interval between prompt word and choice
          
  % code to determine thematic category of choice word/ storing category of
  % RT data 
- %Determines if choice word is present in first, second, or third set of
- %columns in words matrix
- %double sum is to convert logical array to integer
+ % Determines if choice word is present in first, second, or third set of
+ % columns in words matrix
+ % double sum is to convert logical array to integer
 unrel_wrd = sum(sum(str1 == words(:,2:4)));
 synt_wrd = sum(sum(str1 == words(:,5:7)));
 sema_wrd = sum(sum(str1 == words(:,8:10))); 
@@ -244,5 +244,6 @@ Screen('DrawText', mainwin, synt_text, centerq1(1), center(2)); %not sure how to
 
 Screen('Flip', mainwin);
 
-WaitSecs(3);       
+WaitSecs(3); 
+KbStrokeWait; 
 sca;
