@@ -41,5 +41,3 @@ Screen('DrawText', mainwin, mean_rt_unrel_text, center(1), center(2)*.5); %this 
 Screen('DrawText', mainwin, mean_rt_synt_text, center(1), center(2)*.66); %not sure how to place this at the bottom
 
 
-
-
