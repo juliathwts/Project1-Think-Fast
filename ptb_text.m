@@ -82,7 +82,8 @@ exp_order = rot90(exp_order); %now prompt words are all in row 2
 %   Experimental instructions, wait for a spacebar response to start
 Screen('FillRect', mainwin ,bgcolor);
 Screen('TextSize', mainwin, 24);
-% Display instruction text here
+Screen('TextFont', mainwin, 'Times');
+% Revanna: modify instruction text here
 Screen('DrawText',mainwin,'Press the arrow key that corresponds to the location of the prompt word.' ,center(1)-350,center(2)-20,textcolor);
 Screen('DrawText',mainwin,'Press spacebar to start the experiment' ,center(1)-350,center(2)+30,textcolor);
 Screen('Flip',mainwin );
@@ -122,10 +123,17 @@ if mytext(1) == str2
 else
     location = 2;
 end
+%%%% display prompt word 
+Screen('TextSize', mainwin, 50);
+Screen('DrawText',mainwin,pt_word ,center(1)-20,center(2)-20,textcolor);
+Screen('Flip', mainwin); % display prompt word
+WaitSecs(0.6); %time to remember prompt word
+Screen('FillRect', mainwin ,bgcolor); Screen('Flip', mainwin); %display blank screen
+WaitSecs(0.8); %time interval between prompt word and choice
 
-%Displayign the choice options
- Screen('DrawText',mainwin,char1 ,centerq1(1)-50,centerq1(2)-20,textcolor);
- Screen('DrawText',mainwin,char2 ,centerq2(1)-50,centerq2(2)-20,textcolor);
+%%%%%% display choice 
+ Screen('DrawText',mainwin,char1 ,centerq1(1)+50,centerq1(2)-20,textcolor);
+ Screen('DrawText',mainwin,char2 ,centerq2(1)-150,centerq2(2)-20,textcolor);
 
  Screen('Flip', mainwin); % must flip for the stimulus to show up on the mainwin
            
@@ -203,7 +211,7 @@ mean_rt_synt_str = string(mean_rt_synt);
 mean_rt_synt_text = append('Average Response Time in Syntactic Condition =', mean_rt_synt_str,' secs');
 synt_text = char(mean_rt_synt_text);
 
-%%Display result%%
+Screen('TextSize', mainwin, 24);
 Screen('DrawText', mainwin, 'Your Results:', centerq1(1), center(2)-70);
 Screen('DrawText', mainwin, unrel_text, centerq1(1), center(2)+35); %this at the centre centre
 Screen('DrawText', mainwin, sema_text, centerq1(1), center(2)-35); %this one should be printed at the centre top of the screen roughly
